@@ -30,6 +30,36 @@ bool isValidOperator(string input) {
   return true; 
 }
 
+string convert(string operator1, string operand1, string operand2) {
+  return operand1 + " " + operator1 + " " + operand2;
+}
+
+int calculate(string operator1, string operand1, string operand2) {
+  if (operator1 == "+") {
+    return stoi(operand1) + stoi(operand2);
+  } else if (operator1 == "-") {
+    return stoi(operand1) - stoi(operand2);
+  } else if (operator1 == "/") {
+    return stoi(operand1) / stoi(operand2);
+  } else if (operator1 == "*") {
+    return stoi(operand1) * stoi(operand2);
+  }
+  return 0;
+}
+
+int calculate(string operator1, string operand1, int operand2) {
+  if (operator1 == "+") {
+    return stoi(operand1) + operand2;
+  } else if (operator1 == "-") {
+    return stoi(operand1) - operand2;
+  } else if (operator1 == "/") {
+    return stoi(operand1) / operand2;
+  } else if (operator1 == "*") {
+    return stoi(operand1) * operand2;
+  }
+  return 0;
+}
+
 int main() {
   string input;
   getline(cin, input);
@@ -73,16 +103,27 @@ int main() {
     operands.push_back(inputVector.at(i));
   }
 
-  cout << operators.size() << ' ' << operands.size() << endl;
-
-  if (!(operands.size() == operators.size() + 1)) {
-    validInput = false;
-  }
+  if (!(operands.size() == operators.size() + 1)) validInput = false;
 
   if (!validInput) {
     cout << "Error" << endl;
   } else {
-    cout << "Nice" << endl; 
+    string output = "";
+    int calculatedOutput = 0;
+    for (int i = 0; i < operators.size(); i++) {
+      if (i == 0) {
+        output = convert(operators.at(operators.size() - 1), operands.at(0), operands.at(1));
+        calculatedOutput = calculate(operators.at(operators.size() - 1), operands.at(0), operands.at(1));
+      } else {
+        output = convert(operators.at(operators.size() - 1 - i), output, operands.at(i + 1));
+        calculatedOutput = calculate(operators.at(operators.size() - 1 - i), operands.at(i + 1), calculatedOutput);
+      }
+      if (i < operators.size() - 1) {
+        output = "(" + output + ")";
+      } 
+    }
+    output = output + " = " + to_string(calculatedOutput);
+    cout << output << endl; 
   }
 
 }
