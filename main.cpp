@@ -110,6 +110,7 @@ int main() {
     }
 
     if (!(operands.size() == operators.size() + 1)) validInput = false;
+    if (!validInput) break;
 
     int calculatedOutput = 0;
     for (int i = 0; i < operators.size(); i++) {
@@ -124,6 +125,7 @@ int main() {
         output = "(" + output + ")";
       } 
     }
+    cout << "Error" << endl; 
     output = output + " = " + to_string(calculatedOutput);
     cout << output << endl; 
     validInput = false;
