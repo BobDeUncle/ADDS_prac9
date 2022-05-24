@@ -75,40 +75,42 @@ int main() {
   // input.erase(remove(input.begin(), input.end(), ' '), input.end());
   // vector<int> inputVector(input.begin(), input.end());
 
-  int validInput = true; 
+  bool validInput = true; 
   int lastOperator = 0;
+  string output = "";
 
-  for (int i = 0; i < inputVector.size(); i++) {
-    if (!isValidOperator(inputVector.at(i))) {
-      lastOperator = i - 1;
-      break;
+  if (inputVector.size() == 0) validInput = false;
+
+  while (validInput == true) {
+    for (int i = 0; i < inputVector.size(); i++) {
+      if (!isValidOperator(inputVector.at(i))) {
+        lastOperator = i - 1;
+        break;
+      }
     }
-  }
 
-  for (int i = lastOperator + 1; i < inputVector.size(); i++) {
-    if (!isValidOperand(inputVector.at(i))) {
-      validInput = false;
-      break;
+    for (int i = lastOperator + 1; i < inputVector.size(); i++) {
+      if (!isValidOperand(inputVector.at(i))) {
+        validInput = false;
+        break;
+      }
     }
-  }
 
-  vector<string> operators;
-  vector<string> operands;
+    if (!validInput) break;
 
-  for (int i = 0; i <= lastOperator; i++) {
-    operators.push_back(inputVector.at(i));
-  }
+    vector<string> operators;
+    vector<string> operands;
 
-  for (int i = lastOperator + 1; i < inputVector.size(); i++) {
-    operands.push_back(inputVector.at(i));
-  }
+    for (int i = 0; i <= lastOperator; i++) {
+      operators.push_back(inputVector.at(i));
+    }
 
-  if (!(operands.size() == operators.size() + 1)) validInput = false;
+    for (int i = lastOperator + 1; i < inputVector.size(); i++) {
+      operands.push_back(inputVector.at(i));
+    }
 
-  if (!validInput) {
-    cout << "Error" << endl;
-  } else {
-    string output = "";
+    if (!(operands.size() == operators.size() + 1)) validInput = false;
+
     int calculatedOutput = 0;
     for (int i = 0; i < operators.size(); i++) {
       if (i == 0) {
@@ -124,6 +126,11 @@ int main() {
     }
     output = output + " = " + to_string(calculatedOutput);
     cout << output << endl; 
+    validInput = false;
+  }
+
+  if (output == "") {
+    cout << "Error" << endl; 
   }
 
 }
