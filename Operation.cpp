@@ -4,6 +4,7 @@
 #include <vector>
 #include <string.h>
 #include <sstream>
+#include <iostream>
 #include <algorithm>
 
 using namespace std;
@@ -41,6 +42,9 @@ int calculate(string operator1, string operand1, string operand2) {
   } else if (operator1 == "-") {
     return stoi(operand1) - stoi(operand2);
   } else if (operator1 == "/") {
+    if (stoi(operand2) == 0) {
+      return 0;
+    }
     return stoi(operand1) / stoi(operand2);
   } else if (operator1 == "*") {
     return stoi(operand1) * stoi(operand2);
@@ -54,6 +58,9 @@ int calculate(string operator1, string operand1, int operand2) {
   } else if (operator1 == "-") {
     return stoi(operand1) - operand2;
   } else if (operator1 == "/") {
+    if (operand2 == 0) {
+      return 0;
+    }
     return stoi(operand1) / operand2;
   } else if (operator1 == "*") {
     return stoi(operand1) * operand2;
@@ -112,6 +119,7 @@ string Operation::toInfix(std::vector<std::string> inputVector) {
         output = "(" + output + ")";
       } 
     }
+
     output = output + " = " + to_string(calculatedOutput);
     validInput = false;
   }
